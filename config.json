@@ -5,3 +5,32 @@
   ],
   "results_per_query": 10
 }
+
+def fetch_google_results(query, n=10):
+    headers = {"User-Agent": "Mozilla/5.0"}
+    url = f"https://www.google.com/search?q={query.replace(' ', '+')}"
+    resp = requests.get(url, headers=headers, timeout=15)
+    soup = BeautifulSoup(resp.text, "html.parser")
+    links = []
+    for a in soup.select("a"):
+        href = a.get("href", "")
+        if href.startswith("http") and "google" not in href:
+            links.append(href)
+        if len(links) >= n:
+            break
+    return links
+
+def fetch_bing_results(query, n=10):
+    headers = {"User-Agent": "Mozilla/5.0"}
+    url = f"https://www.bing.com/search?q={query.replace(' ', '+')}"
+    resp = requests.get(url, headers=headers, timeout=15)
+    soup = BeautifulSoup(resp.text, "html.parser")
+    links = []
+    for a in soup.select("li.b_algo h2 a"):
+        href = a.get("href", "")
+        if href.startswith("http"):
+            links.append(href)
+        if len(links) >= n:
+            break
+    return links
+
