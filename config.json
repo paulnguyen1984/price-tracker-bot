@@ -3,34 +3,7 @@
     "Puma Deviate Nitro Elite 3 homme taille 40",
     "Puma Deviate Nitro Elite 3 40 homme"
   ],
-  "results_per_query": 10
+  "results_per_query": 10,
+  "telegram_chat_id": "TON_CHAT_ID",
+  "telegram_bot_token": "TON_BOT_TOKEN"
 }
-
-def fetch_google_results(query, n=10):
-    headers = {"User-Agent": "Mozilla/5.0"}
-    url = f"https://www.google.com/search?q={query.replace(' ', '+')}"
-    resp = requests.get(url, headers=headers, timeout=15)
-    soup = BeautifulSoup(resp.text, "html.parser")
-    links = []
-    for a in soup.select("a"):
-        href = a.get("href", "")
-        if href.startswith("http") and "google" not in href:
-            links.append(href)
-        if len(links) >= n:
-            break
-    return links
-
-def fetch_bing_results(query, n=10):
-    headers = {"User-Agent": "Mozilla/5.0"}
-    url = f"https://www.bing.com/search?q={query.replace(' ', '+')}"
-    resp = requests.get(url, headers=headers, timeout=15)
-    soup = BeautifulSoup(resp.text, "html.parser")
-    links = []
-    for a in soup.select("li.b_algo h2 a"):
-        href = a.get("href", "")
-        if href.startswith("http"):
-            links.append(href)
-        if len(links) >= n:
-            break
-    return links
-
