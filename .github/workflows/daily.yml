@@ -1,0 +1,32 @@
+name: Puma Nitro 40 - Daily Price Watch
+
+on:
+  schedule:
+    - cron: "0 8 * * *"  # tous les jours à 8h UTC
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run price watcher
+        run: python price_watcher.py
+
+      - name: Commit updated CSV
+        run: |
+          git config --global user.name "price-bot"
+          git config --global user.email "bot@example.com"
+          git add price_history.csv
+          git commit -m "🕓 Update data $(date -u)" || echo "No changes"
+          git push
