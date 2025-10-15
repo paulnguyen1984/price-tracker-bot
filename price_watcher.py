@@ -1,17 +1,15 @@
-DATA_PATH = Path("price_history.csv")
-if not DATA_PATH.exists():
-    with open(DATA_PATH, "w", newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=["date", "query", "url", "price"])
-        writer.writeheader()
-
-
 import requests, re, csv, json, random, time
 from datetime import datetime
 from bs4 import BeautifulSoup
 from pathlib import Path
 
 CONFIG_PATH = Path("config.json")
+
 DATA_PATH = Path("price_history.csv")
+if not DATA_PATH.exists():
+    with open(DATA_PATH, "w", newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=["date", "query", "url", "price"])
+        writer.writeheader()
 
 # ----------------- Utils -----------------
 def load_config():
