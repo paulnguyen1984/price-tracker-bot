@@ -25,8 +25,17 @@ jobs:
 
       - name: Commit updated CSV
         run: |
-          git config --global user.name "price-bot"
-          git config --global user.email "bot@example.com"
+        
+         # config Git
+        git config --global user.name "price-bot"
+        git config --global user.email "bot@example.com"
+    
+        # ajouter le CSV
           git add price_history.csv
+    
+          # commit si nécessaire
           git commit -m "🕓 Update data $(date -u)" || echo "No changes"
-          git push
+    
+        # push avec GITHUB_TOKEN
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
