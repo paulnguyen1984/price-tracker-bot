@@ -23,19 +23,17 @@ jobs:
       - name: Run price watcher
         run: python price_watcher.py
 
-      - name: Commit updated CSV
-        run: |
-        
-         # config Git
-        git config --global user.name "price-bot"
-        git config --global user.email "bot@example.com"
+- name: Commit updated CSV
+  run: |
+    # config Git
+    git config --global user.name "price-bot"
+    git config --global user.email "bot@example.com"
     
-        # ajouter le CSV
-          git add price_history.csv
+    # ajouter le CSV
+    git add price_history.csv
     
-          # commit si nécessaire
-          git commit -m "🕓 Update data $(date -u)" || echo "No changes"
+    # commit si nécessaire
+    git commit -m "🕓 Update data $(date -u)" || echo "No changes"
     
-        # push avec GITHUB_TOKEN
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-
+    # push avec GITHUB_TOKEN
+    git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
